@@ -38,4 +38,4 @@ for full_tweets in tweepy.Cursor(api.user_timeline,screen_name='virendersehwag',
         replies.append(tweet.text)
   print("Tweet :",full_tweets.text.translate(non_bmp_map))
   for elements in replies:
-       print("Replies :",elements)
+       print("Replies :",elements) 
