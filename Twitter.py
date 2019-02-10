@@ -97,7 +97,7 @@ from retrying import retry
 
 # retry with interverls to tackle issue like 429 exception
 
-@retry(wait_exponential_multiplier=100, wait_exponential_max=10000)
+#@retry(wait_exponential_multiplier=100, wait_exponential_max=1000)
 def get_replies(TweetId):
     tweetRepdict = {}
     consumer_key = 'qcq2FiLTgjsOiAz7SZSa8NT8Q'
@@ -113,9 +113,9 @@ def get_replies(TweetId):
     repliesToParticularTweet = []
     non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
 
-    for full_tweets in tweepy.Cursor(api.user_timeline, screen_name='realDonaldTrump', timeout=999999).items(10):
-        for tweet in tweepy.Cursor(api.search, q='to:realDonaldTrump', since_id=TweetId,
-                                   result_type='recent', timeout=999999).items(100):
+    for full_tweets in tweepy.Cursor(api.user_timeline, screen_name='rajcheerfull', timeout=999999).items(10):
+        for tweet in tweepy.Cursor(api.search, q='to:rajcheerfull', since_id=TweetId,
+                                   result_type='recent', timeout=999999).items(1000):
             if hasattr(tweet, 'in_reply_to_status_id_str'):
 
                 if (tweet.in_reply_to_status_id_str == full_tweets.id_str):
@@ -124,14 +124,19 @@ def get_replies(TweetId):
                     repliesToParticularTweet.append(tweet.text)
         tweetText = full_tweets.text.translate(non_bmp_map)
         print("Tweet :", tweetText)
-        for elements in replies:
-            print(elements)
+        #for elements in replies:
+
+            #print(elements)
         tweetRepdict[tweetText] = replies
     return tweetRepdict
 
 
-repliy = get_replies(1092991438579732482)
+repliy = get_replies(1093697713395269632)
+
 print("----------------------------")
+
+dt = pd.DataFrame.from_dict(repliy)
+dt.to_csv("Reactions.csv")
 data = pd.DataFrame()
 for key, value in repliy.items():
 
