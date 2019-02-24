@@ -7,7 +7,7 @@ TODO:
 import sys
 # General:
 from collections import defaultdict
-
+import json
 import matplotlib
 import tweepy  # To consume Twitter's API
 import pandas as pd  # To handle data
@@ -40,54 +40,46 @@ def get_auth():
     auth = tweepy.AppAuthHandler(consumer_key, consumer_secret)
 
     api = tweepy.API(auth, wait_on_rate_limit=True,
-                     wait_on_rate_limit_notify=True)
+                     wait_on_rate_limit_notify=True,retry_count=100,retry_delay=10)
 
     return api
-
+api = get_auth()
 tweetReplyDict = defaultdict(list)
 # retry with interverls to tackle issue like 429 exception
 #@retry(wait_exponential_multiplier=100, wait_exponential_max=1000)
 def get_replies(TweetId,UserId):
 
-    api = get_auth()
+
     replies = []
     # repliesToParticularTweet = []
     # non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
-    tweet = api.get_status(TweetId)
-    tweetContent = tweet.text
+    tweet = api.get_status(TweetId, tweet_mode='extended')
+    tweetContent = tweet.full_text
     print(tweetContent)
-
-    for searchreply in tweepy.Cursor(api.search, q='to:'+UserId, since_id=TweetId).items(10000):
+     #, max_id = '1094633257377787904', since = '2019-02-09'
+    for searchreply in tweepy.Cursor(api.search, q='to:'+UserId,max_id = 1098615818512941057, since_id=TweetId, tweet_mode='extended').items(10000):
         if (searchreply, 'in_reply_to_status_id_str'):
             if (searchreply.in_reply_to_status_id_str == tweet.id_str):
-                replies.append(searchreply.text)
+                replies.append(searchreply.full_text)
 
     tweetReplyDict[tweetContent] = replies
     return tweetReplyDict
 
-reply = get_replies(1092787440560078849, 'realDonaldTrump')
-#reply = get_replies(1093697713395269632,'rajcheerfull')
+reply = get_replies(1098587583469228037, 'realDonaldTrump')
+
 print("------------")
 dt = pd.DataFrame.from_dict(reply, orient='index')
 print(dt)
-dt.to_csv("Reactions.csv", mode='a', header=False)
-    # for full_tweets in tweepy.Cursor(api.user_timeline, screen_name='rajcheerfull', timeout=999999).items(10):
-    #     print(full_tweets.text)
-        # for tweet in tweepy.Cursor(api.search, q='to:rajcheerfull', since_id=TweetId,
-        #                            result_type='recent', timeout=999999).items(1000):
-        #     if hasattr(tweet, 'in_reply_to_status_id_str'):
-        #
-        #         if (tweet.in_reply_to_status_id_str == full_tweets.id_str):
-        #             replies.append(tweet.text)
-        #         if (tweet.id == TweetId):
-        #             repliesToParticularTweet.append(tweet.text)
-        # tweetText = full_tweets.text.translate(non_bmp_map)
-    #     print("Tweet :", tweetText)
-    #     #for elements in replies:
-    #
-    #         #print(elements)
-    #     tweetRepdict[tweetText] = replies
-    # return tweetRepdict
+
+if not (dt.empty ):
+    if(len(dt.columns)>450):
+        with open('data.json', mode='a+') as fp:
+            json.dump(reply, fp)
+            dt.to_csv("Reactions.csv", mode='a', header=False)
+
+
+
+
 
 
 
