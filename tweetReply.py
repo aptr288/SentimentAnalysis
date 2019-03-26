@@ -57,7 +57,7 @@ def get_replies(TweetId,UserId):
     tweetContent = tweet.full_text
     print(tweetContent)
      #, max_id = '1094633257377787904', since = '2019-02-09'
-    for searchreply in tweepy.Cursor(api.search, q='to:'+UserId,max_id = 1098615818512941057, since_id=TweetId, tweet_mode='extended').items(10000):
+    for searchreply in tweepy.Cursor(api.search, q='to:'+UserId,max_id = 1107408129619382277, since_id=TweetId, tweet_mode='extended').items(10000):
         if (searchreply, 'in_reply_to_status_id_str'):
             if (searchreply.in_reply_to_status_id_str == tweet.id_str):
                 replies.append(searchreply.full_text)
@@ -65,7 +65,7 @@ def get_replies(TweetId,UserId):
     tweetReplyDict[tweetContent] = replies
     return tweetReplyDict
 
-reply = get_replies(1098587583469228037, 'realDonaldTrump')
+reply = get_replies(1107385751577088000, 'realDonaldTrump')
 
 print("------------")
 dt = pd.DataFrame.from_dict(reply, orient='index')
