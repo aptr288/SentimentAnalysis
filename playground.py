@@ -1,21 +1,13 @@
-def intersect(nums1, nums2):
-    intersectList = []
-    for i in nums1:
-        for j in nums2:
-            print("present element")
-            print(i)
-            print("Updated List")
-            print(nums2)
-            if (i == j):
-                intersectList.append(i)
-                nums2.remove(j)
-                break
-        print("Intersection List")
-        print(intersectList)
-    return intersectList
+import pandas as pd
 
-a = [4,9,5,4]
-b = [9,4,9,8,4]
+df = pd.read_csv("Reactions.csv")
 
-c = intersect(a,b)
-print(c)
+print(df)
+
+for row in df.itertuples():
+    for element in row:
+        if(pd.isna(element)):
+            continue
+        else:
+            element
+            break
