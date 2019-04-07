@@ -1,10 +1,16 @@
-<<<<<<< HEAD
+# <<<<<<< HEAD
 import pandas as pd
 import math
 
 df = pd.read_csv("Reactions.csv")
+# df_clean = pd.DataFrame().reindex_like(df)
+
 #print(df)
+
+row_list = []
+
 for index, row in df.iterrows():
+
     for elements in row:
         if(pd.isnull(elements)):
             continue
@@ -35,29 +41,29 @@ def analize_sentiment(tweet):
     else:
         return -1
 
-
-
-
-=======
-def intersect(nums1, nums2):
-    intersectList = []
-    for i in nums1:
-        for j in nums2:
-            print("present element")
-            print(i)
-            print("Updated List")
-            print(nums2)
-            if (i == j):
-                intersectList.append(i)
-                nums2.remove(j)
-                break
-        print("Intersection List")
-        print(intersectList)
-    return intersectList
-
-a = [4,9,5,4]
-b = [9,4,9,8,4]
-
-c = intersect(a,b)
-print(c)
->>>>>>> 61dc7efc2864351b01dea4d1952a48913ed84f0c
+#
+#
+#
+# =======
+# def intersect(nums1, nums2):
+#     intersectList = []
+#     for i in nums1:
+#         for j in nums2:
+#             print("present element")
+#             print(i)
+#             print("Updated List")
+#             print(nums2)
+#             if (i == j):
+#                 intersectList.append(i)
+#                 nums2.remove(j)
+#                 break
+#         print("Intersection List")
+#         print(intersectList)
+#     return intersectList
+#
+# a = [4,9,5,4]
+# b = [9,4,9,8,4]
+#
+# c = intersect(a,b)
+# print(c)
+# >>>>>>> 61dc7efc2864351b01dea4d1952a48913ed84f0c
