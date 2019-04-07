@@ -1,5 +1,7 @@
 import re
+import urllib.request
 
+from bs4 import BeautifulSoup
 from textblob import TextBlob
 import pandas as pd
 from collections import defaultdict
@@ -8,6 +10,9 @@ df = pd.read_csv("sample.csv", header=None)
 # df_clean = pd.DataFrame().reindex_like(df)
 
 def clean_tweet(tweet):
+    if tweet.startswith("https://t.co/"):
+        soup = BeautifulSoup(urllib.request.urlopen(tweet),features="lxml")
+        tweet = soup.title.string
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
 def analize_sentiment(tweet):
@@ -29,10 +34,10 @@ tweetReplyDict = defaultdict(list)
 for index, row in df.iterrows():
     row_list = 0
     key = ''
-    for index,elements in enumerate(row):
+    for indexRow,elements in enumerate(row):
 
-        if(index == 0):
-            key = elements
+        if indexRow == 0:
+            key = clean_tweet(elements)
             continue
 
         if(pd.isnull(elements)):
