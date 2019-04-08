@@ -19,7 +19,7 @@ from bs4 import BeautifulSoup
 # print(sample.contents[0])
 # print(response.content)
 
-df = pd.read_csv("sample.csv", header=None)
+df = pd.read_csv("Reactions.csv", header=None)
 # df_clean = pd.DataFrame().reindex_like(df)
 
 def clean_tweet(tweet):
