@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from textblob import TextBlob
 import pandas as pd
 from collections import defaultdict
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 df = pd.read_csv("sample.csv", header=None)
 # df_clean = pd.DataFrame().reindex_like(df)
@@ -20,10 +21,21 @@ def analize_sentiment(tweet):
     Utility function to classify the polarity of a tweet
     using textblob.
     '''
-    analysis = TextBlob(tweet)
-    if analysis.sentiment.polarity > 0:
+    # analysis = TextBlob(tweet)
+    # if analysis.sentiment.polarity > 0:
+    #     return 1
+    # elif analysis.sentiment.polarity == 0:
+    #     return 0
+    # else:
+    #     return -1
+
+    analyser = SentimentIntensityAnalyzer()
+
+    score = analyser.polarity_scores(tweet)
+    print(score['compound'])
+    if(score['compound'] >= 0.05):
         return 1
-    elif analysis.sentiment.polarity == 0:
+    elif(score['compound'] > -0.05 and score['compound'] < 0.05):
         return 0
     else:
         return -1
