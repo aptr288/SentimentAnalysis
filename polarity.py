@@ -10,12 +10,15 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 df = pd.read_csv("Reactions.csv", header=None)
 # df_clean = pd.DataFrame().reindex_like(df)
 
+#Cleans the tweets by removing user name and irrelavent non alphabetic data
 def clean_tweet(tweet):
     if tweet.startswith("https://t.co/"):
         soup = BeautifulSoup(urllib.request.urlopen(tweet),features="lxml")
         tweet = soup.title.string
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
+
+# returns compound sentiment of tweet rounding off to 1, 0 -1
 def analize_sentiment_decision(tweet):
     '''
     Utility function to classify the polarity of a tweet
@@ -40,6 +43,7 @@ def analize_sentiment_decision(tweet):
     else:
         return -1
 
+#returns compound sentiment of tweet as is
 def analize_sentiment_compound(tweet):
     '''
     Utility function to classify the polarity of a tweet
