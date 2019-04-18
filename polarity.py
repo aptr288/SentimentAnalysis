@@ -64,10 +64,11 @@ def analize_sentiment_compound(tweet):
 
 tweetReplyDict = defaultdict(list)
 
-
+# Iterates through each row in csv file
 for index, row in df.iterrows():
     row_list = 0
     key = ''
+    #iterates through each elment in particular row with unequal number of columns
     for indexRow,elements in enumerate(row):
 
         if indexRow == 0:
@@ -80,7 +81,7 @@ for index, row in df.iterrows():
             cleaned_element = clean_tweet(elements)
             # print(cleaned_element)
             row_list += analize_sentiment_decision(cleaned_element)
-
+    #appends both cleaned tweet and its polarity 
     tweetReplyDict[key] = row_list
 
 print(tweetReplyDict)
