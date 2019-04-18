@@ -7,7 +7,7 @@ import pandas as pd
 from collections import defaultdict
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-df = pd.read_csv("sample.csv", header=None)
+df = pd.read_csv("Reactions.csv", header=None)
 # df_clean = pd.DataFrame().reindex_like(df)
 
 def clean_tweet(tweet):
@@ -16,7 +16,7 @@ def clean_tweet(tweet):
         tweet = soup.title.string
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 
-def analize_sentiment(tweet):
+def analize_sentiment_decision(tweet):
     '''
     Utility function to classify the polarity of a tweet
     using textblob.
@@ -32,13 +32,31 @@ def analize_sentiment(tweet):
     analyser = SentimentIntensityAnalyzer()
 
     score = analyser.polarity_scores(tweet)
-    print(score['compound'])
+    # print(score['compound'])
     if(score['compound'] >= 0.05):
         return 1
     elif(score['compound'] > -0.05 and score['compound'] < 0.05):
         return 0
     else:
         return -1
+
+def analize_sentiment_compound(tweet):
+    '''
+    Utility function to classify the polarity of a tweet
+    using textblob.
+    '''
+    # analysis = TextBlob(tweet)
+    # if analysis.sentiment.polarity > 0:
+    #     return 1
+    # elif analysis.sentiment.polarity == 0:
+    #     return 0
+    # else:
+    #     return -1
+
+    analyser = SentimentIntensityAnalyzer()
+
+    score = analyser.polarity_scores(tweet)
+    return score['compound']
 
 tweetReplyDict = defaultdict(list)
 
@@ -57,7 +75,7 @@ for index, row in df.iterrows():
         else:
             cleaned_element = clean_tweet(elements)
             # print(cleaned_element)
-            row_list += analize_sentiment(cleaned_element)
+            row_list += analize_sentiment_decision(cleaned_element)
 
     tweetReplyDict[key] = row_list
 
