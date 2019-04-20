@@ -1,10 +1,11 @@
 from collections import defaultdict
-
+import os
 import pandas as pd
+cwd = os.getcwd()
+path = str(cwd) + "\\files\\RepliesWithTopicCopy.csv"
+df = pd.read_csv(path, header=None,low_memory=False)
 
-df = pd.read_csv("RepliestTopicBySentiment.csv", header=None,low_memory=False)
 
-# print(df)
 tweetReplyDict = defaultdict(list)
 count = 0
 
@@ -113,6 +114,4 @@ for index, row in df.iterrows():
 
 df_clean = pd.DataFrame.from_dict(tweetReplyDict,orient='index')
 
-# df_clean.columns = ['ReactionId', 'TrumpTweet', 'Reaction', 'Sentiment1', 'Sentiment', 'Topic']
-
-df_clean.to_csv('RepliesFormatted.csv',header=False)
+df_clean.to_csv('files\\RepliesFormatted.csv',header=False)
