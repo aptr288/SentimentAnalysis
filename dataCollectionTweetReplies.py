@@ -40,8 +40,8 @@ tweetReplyDict = defaultdict(list)
 
 # retry with interverls to tackle issue like 429 exception
 # @retry(wait_exponential_multiplier=100, wait_exponential_max=1000)
-# previously retry method is used if time is out but with authentication detail of APP auth it automatically
-# wait for some time
+# previously retry method is used if time is out, but with authentication detail of APP auth it automatically
+# waits for some time
 def get_replies(TweetId, UserId):
     replies = []
     tweet = api.get_status(TweetId, tweet_mode='extended')
