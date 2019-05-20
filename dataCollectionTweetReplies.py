@@ -18,10 +18,10 @@ from retrying import retry
 
 # Provides user authentication through access tokens and secret keys to get data from Twitter
 def get_auth():
-    consumer_key = 'qcq2FiLTgjsOiAz7SZSa8NT8Q'
-    consumer_secret = 'b4fOmhWboQZkMYFYiWImVxkZUk6AeuK0mRshCrPyNHVnT6sdqL'
-    access_token = '619712240-QfErMlhFzeEtK7Ru1cmERKns9WFPDuIXUlHMjEJW'
-    access_secret = 'aBouYO4ournJvwuSd4yeSiXHgCrOTaENwY5uURCcp9GX0'
+    consumer_key = 'xxxxxxxxxxxx'
+    consumer_secret = 'xxxxxxxxxxxxxxxxxxxxx'
+    access_token = 'xxxxxxx-xxxxxxxxxxxxxxx'
+    access_secret = 'xxxxxxxxxxxxxxxxxx'
 
     # auth = OAuthHandler(consumer_key, consumer_secret)
     # auth.set_access_token(access_token, access_secret)
